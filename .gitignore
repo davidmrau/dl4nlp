@@ -1,1 +1,7 @@
 willi-2018/
+*.txt
+*.swp
+*.DS_Store
+*.zip
+*.pth
+*.pyc

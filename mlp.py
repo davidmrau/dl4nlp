@@ -1,3 +1,4 @@
+from torch import nn
 class MLP(nn.Module):
   """
   This class implements a Multi-layer Perceptron in PyTorch.

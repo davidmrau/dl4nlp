@@ -25,7 +25,7 @@ import math
 import pickle
 from scipy import sparse
 from scipy.sparse import coo_matrix, hstack, csr_matrix
-
+from sklearn import metrics
 
 """#Training"""
 
@@ -165,7 +165,7 @@ for e in range(epochs):
     t = torch.max(y_test_b,1)[1]
     loss = criterion(y_pred, t)
     total_eval_batch_loss += loss.item()
-    acc = accuracy(y_pred.cpu().detach().numpy(),y_test_b.cpu().detach().numpy())
+    acc = metrics.accuracy_score(np.argmax(y_pred.cpu().detach().numpy(),axis=1),np.argmax(y_test_b.cpu().detach().numpy(), axis=1))
     total_acc += acc
   av_acc = total_acc/len(batches)
   av_eval_batch_loss = total_eval_batch_loss/len(batches)
