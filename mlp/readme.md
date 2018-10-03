@@ -3,7 +3,6 @@
 
 
 ### data pre-processing
-
 ```
 usage: preprocessing_mlp.py [-h] --X_train X_TRAIN --y_train Y_TRAIN --X_test
                             X_TEST --y_test Y_TEST
@@ -46,7 +45,7 @@ optional arguments:
                         "model.pth"
 ```
 
-### evaluate
+### evaluate model
 
 ```
 usage: eval.py [-h] --test TEST --index2lang INDEX2LANG --model MODEL
