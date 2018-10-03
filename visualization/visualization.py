@@ -87,7 +87,7 @@ if __name__ == "__main__":
     parser.add_argument('--legal_chars', type=str, required=True, help="Path legal chars")
     parser.add_argument('--acc_dict', type=str, required=True, help="Path to accuracy dict")
     parser.add_argument('--save_fig', type=str, required=True, help="Path for saving figure")
-    parser.add_argument('--label_threshold', type=float, default:0.8, help="acc threshold for showing labels")
+    parser.add_argument('--label_threshold', type=float, default=0.8, help="acc threshold for showing labels")
 
     config = parser.parse_args()
 
