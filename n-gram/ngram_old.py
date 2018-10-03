@@ -6,10 +6,10 @@ import torch.nn as nn
 from collections import defaultdict, Counter
 
 # %% Parameters
-NAME = 'quadrigram-20'
+NAME = 'testgram-20'
 EPOCHS = 20
 BATCH_SIZE = 32
-N = 4
+N = 3
 
 torch.manual_seed(0)
 torch.cuda.manual_seed(0)
@@ -67,9 +67,10 @@ def construct_dataset(data, features, x2i=None, t2i=None):
 
   i = 0
   for language, paragraphs in data.items():
+    language_index = t2i[language]
     for para in paragraphs:
       X[i, :] = extract_features(para, x2i)
-      t[i] = t2i[language]
+      t[i] = language_index
       i += 1
 
   out = td.DataLoader(td.TensorDataset(X, t), shuffle=True, batch_size=BATCH_SIZE)
@@ -79,8 +80,7 @@ def construct_dataset(data, features, x2i=None, t2i=None):
 
 def extract_features(paragraph, x2i):
   out = torch.zeros(1, len(x2i))
-  n = len(list(x2i.keys())[0])
-  ngrams = [paragraph[i:i+n] for i in range(len(paragraph)-n)]
+  ngrams = [paragraph[i:i+N] for i in range(len(paragraph)-N)]
   num_ngrams = len(ngrams)
   c = Counter(ngrams)
 
@@ -91,7 +91,7 @@ def extract_features(paragraph, x2i):
   return out
 
 # %% Create dataset
-filter = None#set(['eng', 'nld', 'ger', 'swe', 'fin', 'dan', 'amh', 'kok', 'est', 'fra', 'por', 'tuk'])
+filter = None #set(['wuu', 'zh-yue', 'zho'])
 data_train = read_files('data/x_train.txt', 'data/y_train.txt', filter)
 data_test = read_files('data/x_test.txt', 'data/y_test.txt', filter)
 features = select_ngrams(data_train, n=N, amount=20)
@@ -205,3 +205,4 @@ for language, data in checkpoint.items():
 
 with open('{}-result.txt'.format(NAME), 'w+') as f:
   f.write(text)
+  print(text)
