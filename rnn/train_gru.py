@@ -31,7 +31,9 @@ def train(config):
     test_dataset = LanguageDataset(config.test, train_dataset)
     data_loader_train = DataLoader(train_dataset, config.batch_size, num_workers=1)
     data_loader_test = DataLoader(test_dataset, config.batch_size, num_workers=1)
-    # Initialize the model that we are going to use
+    pickle.dump(train_dataset, open(config.save_path+'/train_dataset.p', 'wb'))
+    pickle.dump(test_dataset, open(config.save_path+'/test_dataset.p', 'wb'))
+   # Initialize the model that we are going to use
     model = GRU(config.batch_size, train_dataset.vocab_size, train_dataset.n_langs, \
      config.gru_num_hidden, config.gru_num_layers, config.dropout_keep_prob).to(device)
     # Setup the loss and optimizer
@@ -131,7 +133,7 @@ if __name__ == "__main__":
     parser.add_argument('--batch_size', type=int, default=64, help='Number of examples to process in a batch')
     parser.add_argument('--learning_rate', type=float, default=2e-3, help='Learning rate')
     parser.add_argument('--train_steps', type=int, default=1e6, help='Number of training steps')
-    parser.add_argument('--save_path', type=str, default="./models/", help='Output path for models')
+    parser.add_argument('--save_path', type=str, default="./models/", help='Output path for models and dataset files')
     parser.add_argument('--print_every', type=int, default=10, help='How often to print training progress')
     parser.add_argument('--evaluate_every', type=int, default=500, help='How often the model is evaluated')
     parser.add_argument('--save_every', type=int, default=500, help='How often to save the model')

@@ -26,30 +26,56 @@ optional arguments:
 
 ### train model
 
+
 ```
-usage: train.py [-h] --test TEST --train TRAIN [--num_hidden NUM_HIDDEN]
-                [--batch_size BATCH_SIZE] [--epochs EPOCHS]
-                [--save_path SAVE_PATH]
+usage: train_gru.py [-h] --test TEST --train TRAIN
+                    [--gru_num_hidden GRU_NUM_HIDDEN]
+                    [--gru_num_layers GRU_NUM_LAYERS]
+                    [--dropout_keep_prob DROPOUT_KEEP_PROB]
+                    [--learning_rate_decay LEARNING_RATE_DECAY]
+                    [--learning_rate_step LEARNING_RATE_STEP]
+                    [--batch_size BATCH_SIZE] [--learning_rate LEARNING_RATE]
+                    [--train_steps TRAIN_STEPS] [--save_path SAVE_PATH]
+                    [--print_every PRINT_EVERY]
+                    [--evaluate_every EVALUATE_EVERY]
+                    [--save_every SAVE_EVERY]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --test TEST           Path to the preprocessed test data
-  --train TRAIN         Path to the preprocessed train data
-  --num_hidden NUM_HIDDEN
-                        Number of hidden units
+  --test TEST           Path to a .txt file to train on
+  --train TRAIN         Path to a .txt file to test on
+  --gru_num_hidden GRU_NUM_HIDDEN
+                        Number of hidden units in the GRU
+  --gru_num_layers GRU_NUM_LAYERS
+                        Number of GRU layers in the model
+  --dropout_keep_prob DROPOUT_KEEP_PROB
+                        Dropout keep probability
+  --learning_rate_decay LEARNING_RATE_DECAY
+                        Learning rate decay fraction
+  --learning_rate_step LEARNING_RATE_STEP
+                        Learning rate step
   --batch_size BATCH_SIZE
                         Number of examples to process in a batch
-  --epochs EPOCHS       Number of training epochs
+  --learning_rate LEARNING_RATE
+                        Learning rate
+  --train_steps TRAIN_STEPS
+                        Number of training steps
   --save_path SAVE_PATH
-                        Output path for accuracy: "acc.p", evaluation
-                        loss:"eval_loss.p", loss: "loss.p" and the model:
-                        "model.pth"
+                        Output path for models and dataset files
+  --print_every PRINT_EVERY
+                        How often to print training progress
+  --evaluate_every EVALUATE_EVERY
+                        How often the model is evaluated
+  --save_every SAVE_EVERY
+                        How often to save the model
+
 ```
 
 ### evaluate model
 
 ```
-usage: eval.py [-h] --test TEST --train TRAIN --model MODEL
+
+usage: eval.py [-h] --model MODEL --dataset DATASET
                [--gru_num_hidden GRU_NUM_HIDDEN]
                [--gru_num_layers GRU_NUM_LAYERS]
                [--dropout_keep_prob DROPOUT_KEEP_PROB]
@@ -57,9 +83,8 @@ usage: eval.py [-h] --test TEST --train TRAIN --model MODEL
 
 optional arguments:
   -h, --help            show this help message and exit
-  --test TEST           Path to a .txt file to train on
-  --train TRAIN         Path to a .txt file to test on
   --model MODEL         Path to model
+  --dataset DATASET     Path to the dataset files
   --gru_num_hidden GRU_NUM_HIDDEN
                         Number of hidden units in the GRU
   --gru_num_layers GRU_NUM_LAYERS
@@ -68,5 +93,4 @@ optional arguments:
                         Dropout keep probability
   --batch_size BATCH_SIZE
                         Number of examples to process in a batch
-
 ```

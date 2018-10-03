@@ -1,1 +1,1 @@
-python3 eval.py --test data/test.txt --train data/train.txt --model models/model.pth
+pythonn 3 eval.py --model models/model.pth --dataset model/

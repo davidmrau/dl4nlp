@@ -28,8 +28,8 @@ def train(config):
     device = torch.device(device)
     # Initialize the dataset and data loader (note the +1)
     # Initialize the dataset and data loader (note the +1)
-    train_dataset = LanguageDataset(config.train)
-    test_dataset = LanguageDataset(config.test, train_dataset)
+    train_dataset = pickle.load(open(config.dataset+'/train_dataset.p', 'rb'))
+    test_dataset = pickle.load(open(config.dataset+'/test_dataset.p', 'rb'))
     data_loader_train = DataLoader(train_dataset, config.batch_size, num_workers=1)
     data_loader_test = DataLoader(test_dataset, config.batch_size, num_workers=1)
     # Initialize the model that we are going to use
@@ -57,9 +57,9 @@ if __name__ == "__main__":
 
     # Parse training configuration
     parser = argparse.ArgumentParser()
-    parser.add_argument('--test', type=str, required=True, help="Path to a .txt file to train on")
-    parser.add_argument('--train', type=str, required=True, help="Path to a .txt file to test on")
-    parser.add_argument('--model', type=str, required=True, help="Path to model")
+    parser.add_argument('--model', type=str, required=True, help="Path to model") 
+    parser.add_argument('--dataset', type=str, required=True, help="Path to the dataset files")
+    
     parser.add_argument('--gru_num_hidden', type=int, default=128, help='Number of hidden units in the GRU')
     parser.add_argument('--gru_num_layers', type=int, default=2, help='Number of GRU layers in the model')
     parser.add_argument('--dropout_keep_prob', type=float, default=0.8, help='Dropout keep probability')
