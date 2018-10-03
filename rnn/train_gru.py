@@ -28,9 +28,7 @@ def train(config):
     device = torch.device(device)
     # Initialize the dataset and data loader (note the +1)
     train_dataset = LanguageDataset(config.train)
-    pickle.dump(train_dataset, open(config.save_path+'train_dataset.p', 'wb'))
     test_dataset = LanguageDataset(config.test, train_dataset)
-    pickle.dump(train_dataset, open(config.save_path+'test_dataset.p', 'wb'))
     data_loader_train = DataLoader(train_dataset, config.batch_size, num_workers=1)
     data_loader_test = DataLoader(test_dataset, config.batch_size, num_workers=1)
     # Initialize the model that we are going to use
