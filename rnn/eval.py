@@ -27,15 +27,16 @@ def train(config):
     # Initialize the device which to run the model on
     device = torch.device(device)
     # Initialize the dataset and data loader (note the +1)
-    train_dataset = pickle.load(open(config.save_path+'train_dataset.p', 'rb'))
-    test_dataset = pickle.load(open(config.save_path+'train_dataset.p', 'rb'))
+    # Initialize the dataset and data loader (note the +1)
+    train_dataset = LanguageDataset(config.train)
+    test_dataset = LanguageDataset(config.test, train_dataset)
     data_loader_train = DataLoader(train_dataset, config.batch_size, num_workers=1)
     data_loader_test = DataLoader(test_dataset, config.batch_size, num_workers=1)
     # Initialize the model that we are going to use
     labels = [train_dataset._ix_to_lang[l] for l in range(train_dataset.n_langs)]
     model = GRU(config.batch_size, train_dataset.vocab_size, train_dataset.n_langs, \
      config.gru_num_hidden, config.gru_num_layers, config.dropout_keep_prob).to(device)
-    model.load_state_dict(torch.load(config.save_path+ config.model_path))
+    model.load_state_dict(torch.load(config.model))
     model.eval()
     predictions = []
     targets = []
@@ -56,15 +57,15 @@ if __name__ == "__main__":
 
     # Parse training configuration
     parser = argparse.ArgumentParser()
-
+    parser.add_argument('--test', type=str, required=True, help="Path to a .txt file to train on")
+    parser.add_argument('--train', type=str, required=True, help="Path to a .txt file to test on")
+    parser.add_argument('--model', type=str, required=True, help="Path to model")
     parser.add_argument('--gru_num_hidden', type=int, default=128, help='Number of hidden units in the GRU')
     parser.add_argument('--gru_num_layers', type=int, default=2, help='Number of GRU layers in the model')
     parser.add_argument('--dropout_keep_prob', type=float, default=0.8, help='Dropout keep probability')
     # Training params
 
     parser.add_argument('--batch_size', type=int, default=64, help='Number of examples to process in a batch')
-    parser.add_argument('--save_path', type=str, required=True, default="./models/", help='where the model and the dataset files are stored')
-    parser.add_argument('--model_path', type=str, required=True, default="./models/", help='name of model file')
     config = parser.parse_args()
 
     # Train the model
